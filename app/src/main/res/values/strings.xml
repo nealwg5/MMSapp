@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MMS</string>
+    <string name="my_toolbar">MMS</string>
+    <string name="my_tb_subtitle">Click the Search Icon on the Right</string>
+    <string name="menu_1">Refresh</string>
+    <string name="menu_2">Clearing Suggestions</string>
+    <string name="searchable">Search Here</string>
+    <string name="menu_search">Search</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="title_activity_browse">BrowseActivity</string>
+</resources>
