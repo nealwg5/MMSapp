@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    //Creat the searchbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
+    //Options menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    //Start browseacitivty when browse all is clicked
     public void onAllButtonClicked(View view) {
         Bundle bundle = new Bundle();
         Intent intent = new Intent(this, BrowseActivity.class);

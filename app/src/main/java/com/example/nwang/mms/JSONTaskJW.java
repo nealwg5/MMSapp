@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-
+//Same as jsontask but will parse for JW and FW instead of NEJM
 public class JSONTaskJW extends AsyncTask<String, String, List> {
 
     List<DataNejm> nejmlist = new ArrayList<>();

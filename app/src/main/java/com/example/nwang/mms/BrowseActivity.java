@@ -51,16 +51,16 @@ public class BrowseActivity extends AppCompatActivity implements TaskListener {
 
         setContentView(R.layout.activity_search_results);
 
-        Toolbar my_toolbar = (Toolbar) findViewById(R.id.search_results_toolbar);
+        Toolbar my_toolbar = (Toolbar) findViewById(R.id.search_results_toolbar);   //set toolbar
         setSupportActionBar(my_toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SharedPreferences sharedPref = getSharedPreferences("FileName", MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("FileName", MODE_PRIVATE);      //set up sharedpreference for drop down spinner
         spinnerValue = sharedPref.getInt("userChoiceSpinner", -1);
 
 
-        SharedPreferences startPref = getSharedPreferences("startDate", MODE_PRIVATE);
+        SharedPreferences startPref = getSharedPreferences("startDate", MODE_PRIVATE);  //set up sharepreference for dates
         SharedPreferences.Editor sEditor = startPref.edit();
         sdate = startPref.getString("sDate", "DEFAULT");
         sEditor.remove("sDate");
@@ -76,7 +76,7 @@ public class BrowseActivity extends AppCompatActivity implements TaskListener {
         SharedPreferences pubPref = getSharedPreferences("publications", MODE_PRIVATE);
         publication = pubPref.getString("pubs", "DEFAULT");
 
-        if (publication.equals("NEJM")) {
+        if (publication.equals("NEJM")) {                           //Set different spinners between JW and NEJM
             spec = newSpinnerQuery.SpinnerNEJM(spinnerValue);
             specquery = Uri.encode(spec, "utf-8");
         } else {
@@ -90,10 +90,10 @@ public class BrowseActivity extends AppCompatActivity implements TaskListener {
         startQuery = getStartDate();
         endQuery = getEndDate();
 
-        System.out.println(publication);
+        //if there specializations are chosen, use spec query
         if (spec != null) {
             if (publication.equals("NEJM")) {
-                asyncTask.execute(amazonURl + "has_oa_conclusions:true" + "%20AND%20" + specquery + startQuery + endQuery + page);
+                asyncTask.execute(amazonURl + "has_oa_conclusions:true" + "%20AND%20" + specquery + startQuery + endQuery + page);      //pull JSON data as array from asynctask
             }
             if (publication.equals("JW")) {
                 asyncTaskJW.execute(amazonURLJW + specquery + startQuery + endQuery + page);
@@ -139,11 +139,11 @@ public class BrowseActivity extends AppCompatActivity implements TaskListener {
     @Override
     public void onFinished(List result) {
         nejmresults = (RecyclerView) findViewById(R.id.recycler_view);
-        nejmresults.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));
-        mAdapter = new CustomAdapter(BrowseActivity.    this, result);
+        nejmresults.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));    //add divider
+        mAdapter = new CustomAdapter(BrowseActivity.    this, result);          //insert results to the recylerview ui
         nejmresults.setLayoutManager(new LinearLayoutManager(BrowseActivity.this));
         nejmresults.setAdapter(mAdapter);
-        if (mAdapter.getItemCount() == 0) {
+        if (mAdapter.getItemCount() == 0) {                     //if there are no result, change view to a no result listview
             noresult.setVisibility(View.VISIBLE);
         }
 

@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-
+//asynctask
 public class JSONTask extends AsyncTask<String, String, List> {
 
     List<DataNejm> nejmlist = new ArrayList<>();
@@ -32,10 +32,8 @@ public class JSONTask extends AsyncTask<String, String, List> {
             URL url = new URL(params[0]);
             connection = (HttpURLConnection) url.openConnection();
 
-            System.out.println(connection);
-
             int status = connection.getResponseCode();
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod("GET");         //open connection as a get
             connection.connect();
             InputStream stream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stream));
@@ -48,13 +46,13 @@ public class JSONTask extends AsyncTask<String, String, List> {
 
             String finalJson = buffer.toString();
 
-            JSONObject parentObject = new JSONObject(finalJson);
+            JSONObject parentObject = new JSONObject(finalJson);            //get the JSON results
             JSONObject jObject = parentObject.getJSONObject("json");
             JSONObject resultObject = jObject.getJSONObject("results");
             JSONArray resultArray = resultObject.getJSONArray("result");
             for (int i = 0; i < resultArray.length(); i++) {
                 DataNejm nejm1 = new DataNejm();
-                JSONObject finalObject = resultArray.getJSONObject(i);
+                JSONObject finalObject = resultArray.getJSONObject(i);      //set the results to an array list
                 nejm1.pubtitle = finalObject.getString("title");
                 nejm1.pubdate = finalObject.getString("pubdate");
                 nejm1.pubdoi = finalObject.getString("doi");

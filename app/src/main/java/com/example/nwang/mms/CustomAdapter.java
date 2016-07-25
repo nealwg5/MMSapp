@@ -17,7 +17,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-
+/*
+Adapter to set JSON data to the appropriate field
+ */
 public class CustomAdapter extends RecyclerView.Adapter<MyHolder> {
 
     private Context context;
@@ -50,7 +52,11 @@ public class CustomAdapter extends RecyclerView.Adapter<MyHolder> {
     }
 
 
-
+    /*
+    Really quick and dirty method I used here. The recyclerview will call this function depending on how many results is displayed on the screen.
+    It will continuously call as the user scroll down or up as a new result is shown. This lead to the problem of setting clickable links to the correct spot as position contiguously change.
+    I have hard setted the uri as text to the button then hid the uri with another button in the UI.
+     */
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
         final MyHolder myHolder= holder;
