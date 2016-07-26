@@ -16,7 +16,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-//asynctask
+/**
+ * asynctask
+ */
+
 public class JSONTask extends AsyncTask<String, String, List> {
 
     List<DataNejm> nejmlist = new ArrayList<>();
@@ -44,7 +47,7 @@ public class JSONTask extends AsyncTask<String, String, List> {
                 buffer.append(line);
             }
 
-            String finalJson = buffer.toString();
+            String finalJson = buffer.toString();                           //get the JSON into a readable format
 
             JSONObject parentObject = new JSONObject(finalJson);            //get the JSON results
             JSONObject jObject = parentObject.getJSONObject("json");
@@ -85,7 +88,10 @@ public class JSONTask extends AsyncTask<String, String, List> {
         return null;
     }
 
-
+    /**
+     * After executing, use delegate to call onFinished for activity
+     * @param result Parsed JSOn data in an arraylist
+     */
     @Override
     protected void onPostExecute(List result) {
         super.onPostExecute(result);

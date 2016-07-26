@@ -1,6 +1,8 @@
 package com.example.nwang.mms;
 
-
+/**
+ * All speciality for spinner is saved here
+ */
 public class SpinnerQuery {
 
     private String spinQuery;

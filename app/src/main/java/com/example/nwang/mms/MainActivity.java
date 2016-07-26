@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //Creat the searchbar
+    //Create the searchbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -134,6 +134,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+    //Start browseacitivty when browse all is clicked
+    public void onAllButtonClicked(View view) {
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent(this, BrowseActivity.class);
+        startActivity(intent);
+    }
+
+
+
+
+
+    /**
+     * private method to save spinner values for NEJM
+     */
     private void setSpinner() {
         String[] items = spinnerItems.NEJMitem();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -158,7 +173,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * private method to save spinner values for JW
+     */
     private void setSpinnerJW() {
         String[] items = spinnerItems.JWitem();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -184,6 +201,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Set the datepicker and save the dates
+     */
     private void setstartDatePicker() {
         fromDate.setOnClickListener(new View.OnClickListener() {
 
@@ -282,14 +302,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-    //Start browseacitivty when browse all is clicked
-    public void onAllButtonClicked(View view) {
-        Bundle bundle = new Bundle();
-        Intent intent = new Intent(this, BrowseActivity.class);
-        startActivity(intent);
-    }
-
 
     /**
      * Set preference back to default

@@ -17,6 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Execute the query, call the api and put the result into a view
+ */
 public class SearchResultsActivity extends AppCompatActivity implements TaskListener {
 
 
@@ -54,17 +57,16 @@ public class SearchResultsActivity extends AppCompatActivity implements TaskList
         setContentView(R.layout.activity_search_results);
 
 
-
         Toolbar my_toolbar = (Toolbar) findViewById(R.id.search_results_toolbar);
         setSupportActionBar(my_toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SharedPreferences sharedPref = getSharedPreferences("FileName", MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences("FileName", MODE_PRIVATE);          //SharedPreference for spinners
         spinnerValue = sharedPref.getInt("userChoiceSpinner", -1);
 
 
-        SharedPreferences startPref = getSharedPreferences("startDate", MODE_PRIVATE);
+        SharedPreferences startPref = getSharedPreferences("startDate", MODE_PRIVATE);          //Shared Preference for dates
         SharedPreferences.Editor sEditor = startPref.edit();
         sdate = startPref.getString("sDate", "DEFAULT");
         sEditor.remove("sDate");
@@ -79,7 +81,7 @@ public class SearchResultsActivity extends AppCompatActivity implements TaskList
 
 
 
-        noresult = findViewById(R.id.noResult_view);
+        noresult = findViewById(R.id.noResult_view);                   //Set no result views
         noresult.setVisibility(View.GONE);
 
         Calendar c = Calendar.getInstance();
@@ -88,7 +90,7 @@ public class SearchResultsActivity extends AppCompatActivity implements TaskList
 
 
 
-        Intent searchIntent = getIntent();
+        Intent searchIntent = getIntent();                                  //obtain the search query through intent
         if (Intent.ACTION_SEARCH.equals(searchIntent.getAction())) {
             String query = searchIntent.getStringExtra(SearchManager.QUERY);
 
@@ -116,7 +118,6 @@ public class SearchResultsActivity extends AppCompatActivity implements TaskList
                 if (spec != null) {
                     if (publication.equals("NEJM")) {
                        asyncTask.execute(amazonURl + "has_oa_conclusions:true" + "%20AND%20" + specquery + "%20AND%20fullText:" + searchquery + startQuery + endQuery);
-//                        asyncTask.executeOnExecutor(asyncTask.THREAD_POOL_EXECUTOR,amazonURl + "has_oa_conclusions:true" + "%20AND%20" + specquery + "%20AND%20fullText:" + searchquery + startQuery + endQuery);
                     }
                     if (publication.equals("JW")) {
                         asyncTaskJW.execute(amazonURLJW + searchquery + "%20AND%20" + specquery + startQuery + endQuery);
@@ -131,8 +132,6 @@ public class SearchResultsActivity extends AppCompatActivity implements TaskList
                     }
                     if (publication.equals("FW")) {
                         asyncTaskJW.execute(amazonURLFW + "&query=" + searchquery + startQuery + endQuery);
-//                        asyncTaskJW.executeOnExecutor(asyncTaskJW.THREAD_POOL_EXECUTOR,amazonURLFW + "&query=" + searchquery + startQuery + endQuery);
-//                        asyncTask.executeOnExecutor(asyncTask.THREAD_POOL_EXECUTOR,amazonURl + "has_oa_conclusions:true" +"%20AND%20fullText:" + searchquery + startQuery + endQuery);
                     }
 
                 }
@@ -142,6 +141,24 @@ public class SearchResultsActivity extends AppCompatActivity implements TaskList
     }
 
 
+    /**
+     * When asynctask finish executing, onFinished will be called
+     * @param result  the Arraylist of JSON data
+     */
+    @Override
+    public void onFinished(List result) {
+        System.out.println(result);
+        nejmresults = (RecyclerView) findViewById(R.id.recycler_view);
+        nejmresults.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));
+        mAdapter = new CustomAdapter(SearchResultsActivity.this, result);          //insert results to the recylerview ui through an adapter
+        nejmresults.setLayoutManager(new LinearLayoutManager(SearchResultsActivity.this));
+        nejmresults.setAdapter(mAdapter);
+        if (mAdapter.getItemCount() == 0) {
+            noresult.setVisibility(View.VISIBLE);
+        }
+    }
+
+    //Get the start and endDates
     private String getStartDate() {
         String sQuery;
         if (sdate.equals("DEFAULT")) {
@@ -164,21 +181,6 @@ public class SearchResultsActivity extends AppCompatActivity implements TaskList
         return eQuery;
 
     }
-
-
-    @Override
-    public void onFinished(List result) {
-        System.out.println(result);
-        nejmresults = (RecyclerView) findViewById(R.id.recycler_view);
-        nejmresults.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));
-        mAdapter = new CustomAdapter(SearchResultsActivity.this, result);
-        nejmresults.setLayoutManager(new LinearLayoutManager(SearchResultsActivity.this));
-        nejmresults.setAdapter(mAdapter);
-        if (mAdapter.getItemCount() == 0) {
-            noresult.setVisibility(View.VISIBLE);
-        }
-    }
-
 
 }
 

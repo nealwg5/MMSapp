@@ -14,6 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Similiar to SearchResultActivity, browse all through the different publications.
+ */
 public class BrowseActivity extends AppCompatActivity implements TaskListener {
 
 
@@ -114,6 +117,19 @@ public class BrowseActivity extends AppCompatActivity implements TaskListener {
     }
 
 
+    @Override
+    public void onFinished(List result) {
+        nejmresults = (RecyclerView) findViewById(R.id.recycler_view);
+        nejmresults.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));    //add divider
+        mAdapter = new CustomAdapter(BrowseActivity.    this, result);          //insert results to the recylerview ui through an adapter
+        nejmresults.setLayoutManager(new LinearLayoutManager(BrowseActivity.this));
+        nejmresults.setAdapter(mAdapter);
+        if (mAdapter.getItemCount() == 0) {                     //if there are no result, change view to a no result listview
+            noresult.setVisibility(View.VISIBLE);
+        }
+
+    }
+
     private String getStartDate() {
         String sQuery;
         if (sdate.equals("DEFAULT")) {
@@ -135,18 +151,5 @@ public class BrowseActivity extends AppCompatActivity implements TaskListener {
 
     }
 
-
-    @Override
-    public void onFinished(List result) {
-        nejmresults = (RecyclerView) findViewById(R.id.recycler_view);
-        nejmresults.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));    //add divider
-        mAdapter = new CustomAdapter(BrowseActivity.    this, result);          //insert results to the recylerview ui
-        nejmresults.setLayoutManager(new LinearLayoutManager(BrowseActivity.this));
-        nejmresults.setAdapter(mAdapter);
-        if (mAdapter.getItemCount() == 0) {                     //if there are no result, change view to a no result listview
-            noresult.setVisibility(View.VISIBLE);
-        }
-
-    }
 
 }
